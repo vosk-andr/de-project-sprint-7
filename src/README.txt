@@ -1,0 +1,39 @@
+	events:
+
+		Формат: Parquet
+		Расположение: "/user/master/data/geo/events"
+		Содержит исходные события соцсети
+		всегда существует)
+		
+stg - Сырой слой
+	geo:
+		Формат: CSV (разделитель ";")
+		Расположение: "/user/reydanyk/project_7/stg/geo.csv"
+		Содержит справочник городов с координатами
+		Берется из сети и загружается по нужному пути
+
+mart - слой сырых витрин
+	events_city:
+		Формат: Parquet
+		Расположение: "/user/reydanyk/project_7/mart/events_city"
+		Содержит исходные события соцсети с привязкой событий к городам
+		Образуется путем объединения events и geo
+
+	user_cities/:
+		Формат: Parquet
+		Расположение: "/user/reydanyk/project_7/mart/user_city"
+		Содержит информацию по пользователям, место жительства и актуальный город
+		Образуется из events_city
+
+analytics - итоговый аналитический слой
+	zone_analytics:
+		Формат: Parquet
+		Расположение: "/user/reydanyk/project_7/analytics/zone_analytics"
+		Содержит агрегации по месяцам и неделям по городам
+		Образуется из user_city
+	recommendations:
+		Формат: Parquet
+		Расположение: "/user/reydanyk/project_7/analytics/recommendations"
+		Содержит рекомедации пользователям если они состоят в одних группах в одном городе и не писали друг другу
+		Образуется из user_city и events_city
+
